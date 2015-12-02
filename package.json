@@ -1,0 +1,25 @@
+{
+  "name": "abhinav",
+  "version": "1.0.0",
+  "description": "abc",
+  "main": "index.js",
+  "scripts": {
+    "test": "abc"
+  },
+"dependencies": {
+    "express": "3.x",
+    "mongodb": "*"},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhinav-saini/HippoFeedo.git"
+  },
+  "keywords": [
+    "abc"
+  ],
+  "author": "abhinav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhinav-saini/HippoFeedo/issues"
+  },
+  "homepage": "https://github.com/abhinav-saini/HippoFeedo#readme"
+}

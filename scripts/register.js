@@ -13,7 +13,9 @@ $(document).ready(function() {
         } else {
 
                 $(function() {
-                            stuff.run();
+                            var a = require('/scripts/testing.js');
+
+
                          });
 
                }

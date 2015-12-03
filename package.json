@@ -1,14 +1,24 @@
 {
   "name": "abhinav",
-  "version": "1.0.0",
-  "description": "abc",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "abc"
+    "start": "node ./bin/www"
   },
-"dependencies": {
-    "express": "3.x",
-    "mongodb": "*"},
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "mongodb": "*",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0",
+    "ejs":"~2.3.4"
+  },
+  "description": "abc",
+  "main": "app.js",
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/abhinav-saini/HippoFeedo.git"

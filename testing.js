@@ -1,27 +1,32 @@
 
-    var mongodb = require('mongodb');
-    var assert = require('assert');
-    var ObjectId = require('mongodb').ObjectID;
+var mongodb = require('mongodb');
 
 //We need to work with "MongoClient" interface in order to connect to a mongodb server.
-    var MongoClient = mongodb.MongoClient;
+var MongoClient = mongodb.MongoClient;
 
 // Connection URL. This is where your mongodb server is running.
-    var url = 'mongodb://localhost:3000/';
+var url = 'mongodb://localhost:27017/add_database';
 
 // Use connect method to connect to the Server
-    MongoClient.connect(url, function (err, db) {
-        if (err) {
-            console.log('Unable to connect to the mongoDB server. Error:', err);
-        } else {
-            //HURRAY!! We are connected. :)
-            console.log('Connection established to', url);
+MongoClient.connect(url, function (err, db) {
+    if (err) {
+        console.log('Unable to connect to the mongoDB server. Error:', err);
+    } else {
+        //HURRAY!! We are connected. :)
+        console.log('Connection established to', url);
 
-            // Get the documents collection
-            var collection = db.collection('users');
+        // do some work here with the database.
+
+        //Close connection
+        db.close();
+    }
+});
+
+
+
 
             //Create some users
-            var user1 = { name: $("#name").val(),
+           /* var user1 = { name: $("#name").val(),
                 email: $("#email").val(),
                 employee_id: $("#employeeid").val(),
                 password: $("#password").val(),
@@ -48,3 +53,4 @@
     });
 
 
+*/

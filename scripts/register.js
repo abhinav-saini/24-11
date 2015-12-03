@@ -12,11 +12,7 @@ $(document).ready(function() {
             alert("Your passwords don't match. Try again?");
         } else {
 
-                $(function() {
-                            var a = require('/scripts/testing.js');
-
-
-                         });
+                stuff.run();
 
                }
 
@@ -40,10 +36,11 @@ $(document).ready(function() {
 
                 send: function (object) {
                     $.ajax({
-                        url: "https://api.mongolab.com/api/1/databases/hippo/collections/employees?apiKey=4-w0lRqk2CkV-7wr2A93d2FwvxCpmndm",
-                        type: "POST",
-                        data: JSON.stringify(object),
-                        contentType: "application/json"
+                    
+
+
+
+
                     }).done(function () {
                         window.alert("Registration Successful");
                                         });

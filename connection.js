@@ -42,7 +42,7 @@ var add= function(uname,uemail,uemployeeid,upassword,uposition,ujoining_date,uac
     });
 }
 
-var check= function(uemail,upassword)
+var check= function(cred,callback)
 {
 
     var mongodb = require('mongodb');
@@ -61,13 +61,16 @@ var check= function(uemail,upassword)
 
             var collection = db.collection('employees');
 
-            collection.findOne({ email: uemail, password: upassword }, function(err, doc){
+            collection.findOne({ email: cred.email, password: cred.password }, function(err, doc){
                 if(err) throw err;
 
                 if(doc) {
-                    console.log("Found: " + uemail + ", pass=" + upassword);
+                    console.log("Found: " + cred.email + ", pass=" + cred.password);
+                    callback(1);
+
                 } else {
-                    console.log("Not found: " + uemail);
+                    console.log("Not found: " + cred.email);
+                    callback(0);
                 }
 
                 db.close();

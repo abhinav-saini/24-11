@@ -50,7 +50,22 @@ module.exports = function(app){
         var password = req.param('password');
 
         console.log(" Email: " + email);
-       connection.check(email,password);
+        var cred = {
+            email : email,
+            password : password
+        }
+       connection.check(cred,function(o)
+           {
+               if(o==1)
+               res.send("GOT Value");
+               else
+               res.send("NO I DIDN't")
+           }
+
+
+
+
+       );
 
 
     });

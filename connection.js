@@ -61,12 +61,15 @@ var check= function(uemail,upassword)
 
             var collection = db.collection('employees');
 
-            collection.findOne({uemail:uemail}, function(err,doc){
+            collection.findOne({ email: uemail, password: upassword }, function(err, doc){
                 if(err) throw err;
-                if(doc)
-                    console.log("Found: "+uemail+", pass=");
-                else
-                    console.log("Not found: "+uemail);
+
+                if(doc) {
+                    console.log("Found: " + uemail + ", pass=" + upassword);
+                } else {
+                    console.log("Not found: " + uemail);
+                }
+
                 db.close();
             });
 

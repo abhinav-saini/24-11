@@ -3,15 +3,16 @@
  */
 var express = require("express");
 var app = express();
+var http = require('http');
+var fs = require('fs');
+var path = require('path');
 
-//app.use(express.static());
 
 var connection = require("../connection");
 
 module.exports = function(app){
     app.get('/', function(req, res){
         res.render("login.html");
-
     });
 
     app.get('/adduser', function(req, res){
@@ -49,15 +50,10 @@ module.exports = function(app){
         var password = req.param('password');
 
         console.log(" Email: " + email);
-        connection.check(email,password);
+       connection.check(email,password);
 
 
     });
-
-
-
-
-
 
 
 

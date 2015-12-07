@@ -6,9 +6,18 @@ var app = express();
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
-
-
+var bodyParser = require('body-parser');
+app.use(bodyParser());
+app.use(express.static(__dirname + "/public", {maxAge: 3456700000}));
 var connection = require("../connection");
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+
+app.use(cookieParser());
+app.use(session({secret: '1234567890QWERTY'}));
+
+var router = express.Router();
+
 
 module.exports = function(app){
     app.get('/', function(req, res){
@@ -44,29 +53,55 @@ module.exports = function(app){
 
     });
 
+    app.get('/index.html', function(req, res){
+
+            if (req.session.email!=null) {
+
+                res.render("index.html");
+            }
+        else
+            {
+                res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+            }
+
+
+
+    });
+
     app.get('/checkuser', function(req, res){
+
+        req.session.email=req.param('email');
 
         var email = req.param('email');
         var password = req.param('password');
+
 
         console.log(" Email: " + email);
         var cred = {
             email : email,
             password : password
-        }
+                    }
        connection.check(cred,function(o)
            {
-               if(o==1)
-               res.send("GOT Value");
+               if (req.session.email&&o==1) {
+
+                       res.redirect("index.html");
+                   }
+
                else
-               res.send("NO I DIDN't")
+               {
+                   req.session.email=null;
+                   res.end('<div><h1>Username and password is invalid!</h1></div></br><a href="/loginopen">Click here to login again</a>');
+               }
+
            }
-
-
-
-
        );
+    });
 
+    app.get('/logout', function(req, res){
+        console.log("Logged out from"+req.session.email);
+        req.session.email=null;
+        res.redirect("/");
 
     });
 

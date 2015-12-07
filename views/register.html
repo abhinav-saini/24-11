@@ -3,15 +3,28 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Register - HippoFeedo</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-messages.js"></script>
+    <script src="lib/angular-resource.min.js"></script>
+    <script src="../app.js"></script>
+    <script>
+        var registerApp = angular.module('registerApp', []);
+
+        registerApp.controller('registerController', function($scope){
+        });
+    </script>
+
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css"/>
+
     <style>
         h2{
             text-align: center;
             font-size: 24px;
         }
         hr{
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+            margin-top: 20px;
         }
         div.container{
             width: 600px;
@@ -31,7 +44,7 @@
             border-radius: 2px;
             font-size: 13px;
         }
-        input[type=text],[type=password] {
+        input[type=text],[type=password],[type=email], [type=number] {
             width: 97.7%;
             height: 34px;
             padding-left: 5px;
@@ -42,12 +55,20 @@
             color: #4f4f4f;
             font-size: 16px;
         }
-        label{
+        label {
             color: #464646;
             text-shadow: 0 1px 0 #fff;
             font-size: 14px;
             font-weight: bold;
         }
+
+        p {
+            color: firebrick;
+            text-shadow: 0 1px 0 #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
         input[type=submit] {
             width: 100%;
             background: linear-gradient(#22abe9 5%, #36caf0 100%);
@@ -61,9 +82,27 @@
             text-shadow: 0px 1px 0px #13506D;
         }
 
-        </style>
+
+        input[type=submit]:disabled, input[type=submit] [disabled] :hover {
+
+            cursor: not-allowed;
+            color: lightgrey;
+            text-shadow: 0px 1px 0px #13506D;
+
+
+        }
+
+        .error {
+
+            color: red;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+    </style>
 </head>
 <body>
+
 <div class="container">
     <div id="content">
         <div class="github-fork-ribbon-wrapper right" style="top:40px;">
@@ -75,23 +114,65 @@
         </div>
     </div>
     <div class="main">
-    <div id="box">
-    <form class="form" method="get" id="myForm" action="/adduser">
+        <!--Register Form-->
+    <div id="box" ng-app="registerApp" ng-controller="registerController">
+    <form class="form" name="registerForm" method="get" id="myForm" action="/adduser" novalidate>
 
         <h2>| Hippo Feedo |</h2>
         <hr>
-        <p style="text-align:center">Please enter all the fields</p>
-        <label>Name :</label>
-        <input type="text" name="name" id="name">
-        <label>Email :</label>
-        <input type="text" name="email" id="email">
-        <label>Employee ID :</label>
-        <input type="text" name="employeeid" id="employeeid">
-        <label>Password :</label>
-        <input type="password" name="password" id="password">
-        <label>Confirm Password :</label>
-        <input type="password" name="cpassword" id="cpassword">
-        <p align="center"><input type="submit" name="register" id="submitBtn" value="Register"></p>
+        <p style="text-align:center" >Please enter all the fields</p>
+
+        <label>Name:</label>
+        <input type="text" name="name" ng-model="name" required placeholder="John Doe" minlength="4">
+        <div class="error" style = "color:red" ng-if="registerForm.name.$touched" ng-show = "registerForm.name.$error">
+            <span ng-show = "registerForm.name.$error.required">Name is required.</span>
+            <span ng-show = "registerForm.name.$error.minlength">Name is too short.</span>
+        </div>
+
+        <!--<div style="color: red" ng-messages="registerForm.name.$error" ng-if="registerForm.name.$touched">
+            <p ng-message="required">Name is required.</p>
+            <p ng-message="text">Name is invalid.</p>
+        </div>-->
+
+        <label>Email:</label>
+        <input type="email" name="email" ng-model="email" required placeholder="john.doe@hippo.com"  >
+        <div class="error" style="color: red" ng-if="registerForm.email.$touched" ng-messages="registerForm.email.$error">
+            <span ng-show = "registerForm.email.$error.required">Email is required.</span>
+            <span ng-show = "registerForm.email.$error.email">Email is invalid</span>
+        </div>
+
+        <label>EmployeeId:</label>
+        <input type="text" name="employeeid" ng-model="employeeid" required ng-pattern="/^(\d)+$/"  placeholder="e.g. 01">
+        <div class="error" style = "color:red" ng-if="registerForm.employeeid.$touched" ng-messages="registerForm.employeeid.$error" >
+            <span ng-show = "registerForm.employeeid.$error.required">Employee Id is required</span>
+            <span ng-show = "registerForm.employeeid.$error.pattern">Employee Id must be number</span>
+        </div>
+
+        <label>Password:</label>
+        <input type="password" name="password" ng-model="password" required minlength="8" placeholder="password">
+        <div class="error" style = "color:red" ng-if="registerForm.password.$touched" ng-show = "registerForm.password.$error">
+            <span ng-show = "registerForm.password.$error.required">Password is required</span>
+            <span ng-show = "registerForm.password.$error.minlength">Password is too short</span>
+        </div>
+
+        <label>Confirm Password:</label>
+        <input  type="password" name="cpassword" ng-model="cpassword" ng-pattern="password" required placeholder="password" >
+        <div class="error" style = "color:red" ng-if="registerForm.cpassword.$touched" ng-show = "registerForm.cpassword.$error">
+            <span ng-show = "registerForm.cpassword.$error.required">Confirm your password</span>
+            <span ng-show = "registerForm.cpassword.$error.pattern">Password does not match</span>
+
+        </div>
+
+
+        <!--<input type="submit" name="submitBtn" ng-model="submitBtn" value="Register" />-->
+        <input type="submit" id="submitBtn" name="submitBtn" ng-model="submitBtn" ng-disabled="registerForm.name.$error.required || registerForm.name.$error.minlength
+                                                                                    || registerForm.email.$error.email || registerForm.email.$error.required
+                                                                                    || registerForm.employeeid.$error.required || registerForm.employeeid.$error.pattern
+                                                                                    || registerForm.password.$error.required || registerForm.password.$error.minlength
+                                                                                    || registerForm.cpassword.$error.required || registerForm.cpassword.$error.pattern">
+
+
+
     </form>
       <hr>
         <form action="/loginopen" method="get">

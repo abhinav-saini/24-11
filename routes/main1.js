@@ -186,6 +186,19 @@ module.exports = function(app){
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
+    app.get('/addsuggestion', function(req, res){
+        res.redirect("index.html");
+        var email = req.session.email;
+        var title = req.param('title');
+        var description = req.param('description');
+        var d = new Date();
+        var now = d.toLocaleString();
+
+        console.log("Title: " + title + "Description: " +description);
+
+        connection.addsuggestion(email,title,description,now);
+    });
+
 
 
 }

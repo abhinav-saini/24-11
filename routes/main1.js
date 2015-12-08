@@ -82,8 +82,6 @@ module.exports = function(app){
                 res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
             }
 
-
-
     });
 
     /*app.get('/checkuser', function(req, res){
@@ -156,6 +154,36 @@ module.exports = function(app){
         req.session.email=null;
         res.redirect("/");
 
+    });
+
+    app.get('/complaints', function(req, res){
+
+        if(req.session.email!=null)
+            res.render("complaints.html");
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/addcomplaint', function(req, res){
+        res.redirect("index.html");
+        var email = req.session.email;
+        var title = req.param('title');
+        var description = req.param('description');
+        var priority=req.param('priority');
+        var d = new Date();
+        var now = d.toLocaleString();
+
+        console.log("Title: " + title + "Description: " +description);
+
+        connection.addcomplaint(email,title,description,priority,now);
+    });
+
+    app.get('/suggestions', function(req, res){
+
+        if(req.session.email!=null)
+            res.render("suggestions.html");
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
 

@@ -112,8 +112,8 @@
 			
 			function formSubmit(){
 				$('[data-constraints]',form).trigger('validate.form')
-				
-				if(!$('label.'+opt.invalidClass+',label.'+opt.emptyClass,form).length){					
+
+				if(!$('label.'+opt.invalidClass+',label.'+opt.emptyClass,form).length){
 					$.ajax({
 						type:"POST"
 						,url:opt.mailHandlerURL
@@ -127,7 +127,7 @@
 							,owner_email:opt.ownerEmail||'#'
 							,stripHTML:opt.stripHTML
 						}
-						,success: function(e){							
+						,success: function(e){
 							form.addClass(opt.successClass)
 							setTimeout(function(){
 								form
@@ -135,8 +135,8 @@
 								.trigger('reset')
 							},opt.successShowDelay)
 						}
-					})					
-				}				
+					})
+				}
 				return false
 			}
 			

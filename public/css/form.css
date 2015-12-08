@@ -5,7 +5,7 @@
 	width: 517px;
 }
 
-#form input {
+#form input [type=text]{
 	width: 100%;
 	height: 29px;
 	float:left;
@@ -125,24 +125,7 @@
 	opacity: 1;
 }
 
-.btns {
-	text-align: right;
-	padding-top: 24px;
-	font-size: 0;
-	line-height: 0;
 
-}
-
-.btns a.btn {
-	margin-top: 0;
-	text-align: center;
-	margin-left: 5px;
-
-}
-
-.btns a.btn+a.btn {
-	
-}
 
 
 
@@ -152,32 +135,8 @@
 	line-height: 0;
 }
 
-#form .success-message {
-	position: absolute;
-	background: #f8f8f8;
-	border: 2px solid #cfd5da;
-	width: 100%;
-	color: #4c4c4c;
-    font: 14px/18px Arial, Helvetica, sans-serif;
-	display: none;
-	opacity: 0;
-	height: 116px;
-    opacity: 0;
-    padding: 46px 10px;
-	text-align: center;
-	z-index: 999;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box; /*Firefox 1-3*/
-	-webkit-box-sizing: border-box; /* Safari */
-	transition: 0.5s ease;
-	-o-transition: 0.5s ease;
-	-webkit-transition: 0.5s ease;
-}
 
-#form.success .success-message {
-	display: block;
-	opacity: 1;
-}
+
 
 .success_wrapper {
 	position: relative;	

@@ -80,8 +80,7 @@ var check= function(cred,callback)
     });
 }
 
-var checkDuplicate= function(email,callback)
-{
+var addcomplaint= function(email,title,description,priority,now) {
 
     var mongodb = require('mongodb');
     var MongoClient = mongodb.MongoClient;
@@ -97,19 +96,22 @@ var checkDuplicate= function(email,callback)
         else {
             console.log('Connection established to', url);
 
-            var collection = db.collection('employees');
+            // Get the documents collection
+            var collection = db.collection('complaints');
 
-            collection.findOne({ email: email}, function(err, doc){
-                if(err)
-                    throw err;
+            //Create some complaint
+            var data = {email:email,title:title,description:description,priority:priority,date:now};
 
-                if(doc) {
-                    console.log(email + " already exists");
-                    callback(1);
 
+            /* var user2 = {name: 'modulus user', age: 22, roles: ['user']};
+             var user3 = {name: 'modulus super admin', age: 92, roles: ['super-admin', 'admin', 'moderator', 'user']};*/
+
+            // Insert some complaint
+            collection.insert(data, function (err, result) {
+                if (err) {
+                    console.log(err);
                 } else {
-                    console.log("Not found: " + email);
-                    callback(0);
+                    console.log('Inserted %d documents into the "complaints" collection. The documents inserted with "_id" are:', result.length, result);
                 }
 
                 db.close();
@@ -121,6 +123,7 @@ var checkDuplicate= function(email,callback)
 
 
 
+
 module.exports.add=add;
 module.exports.check=check;
-module.exports.checkDuplicate = checkDuplicate;
+module.exports.addcomplaint=addcomplaint;

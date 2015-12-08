@@ -59,7 +59,7 @@ module.exports = function(app){
 
     });
 
-    app.post('/loginopen', function(req, res){
+    app.get('/loginopen', function(req, res){
         res.render("login.html");
 
 
@@ -71,7 +71,7 @@ module.exports = function(app){
 
     });
 
-    app.post('/index.html', function(req, res){
+    app.get('/index.html', function(req, res){
 
             if (req.session.email!=null) {
 
@@ -131,9 +131,9 @@ module.exports = function(app){
             }
             connection.check(cred,function(o)
                 {
-                    if (req.session.email || o==1) {
+                    if (req.session.email && o==1) {
 
-                        res.render("index.html");
+                        res.redirect("index.html");
                     }
 
                     else

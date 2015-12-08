@@ -80,6 +80,46 @@ var check= function(cred,callback)
     });
 }
 
+var checkDuplicate= function(email,callback)
+{
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            var collection = db.collection('employees');
+
+            collection.findOne({ email: email}, function(err, doc){
+                if(err)
+                    throw err;
+
+                if(doc) {
+                    console.log(email + " already exists");
+                    callback(1);
+
+                } else {
+                    console.log("Not found: " + email);
+                    callback(0);
+                }
+
+                db.close();
+            });
+
+        }
+    });
+}
+
+
 var addcomplaint= function(email,title,description,priority,now) {
 
     var mongodb = require('mongodb');
@@ -168,5 +208,6 @@ var addsuggestion= function(email,title,description,now) {
 
 module.exports.add=add;
 module.exports.check=check;
+module.exports.checkDuplicate = checkDuplicate;
 module.exports.addcomplaint=addcomplaint;
 module.exports.addsuggestion=addsuggestion;

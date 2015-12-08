@@ -24,6 +24,7 @@ module.exports = function(app){
         res.render("login.html");
     });
 
+
     app.post('/adduser', function(req, res){
 
         var name = req.body.name;
@@ -49,27 +50,20 @@ module.exports = function(app){
                 connection.add(name,email,employeeid,password,position,joining_date,active);
                 res.render("login.html");
             }
-
         });
-
-
-
-
-
-
     });
+
 
     app.get('/loginopen', function(req, res){
         res.render("login.html");
 
-
     });
+
 
     app.post('/registeropen', function(req, res){
         res.render("register.html");
-
-
     });
+
 
     app.get('/index.html', function(req, res){
 
@@ -81,38 +75,8 @@ module.exports = function(app){
             {
                 res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
             }
-
     });
 
-    /*app.get('/checkuser', function(req, res){
-
-        req.session.email=req.param('email');
-
-        var email = req.param('email');
-        var password = req.param('password');
-
-
-        console.log(" Email: " + email);
-        var cred = {
-            email : email,
-            password : password
-                    }
-       connection.check(cred,function(o)
-           {
-               if (req.session.email&&o==1) {
-
-                       res.redirect("index.html");
-                   }
-
-               else
-               {
-                   req.session.email=null;
-                   res.end('<div><h1>Username and password is invalid!</h1></div></br><a href="/loginopen">Click here to login again</a>');
-               }
-
-           }
-       );
-    });*/
 
     app.post('/checkuser', function(req, res) {
 
@@ -120,7 +84,6 @@ module.exports = function(app){
 
             var email = req.body.email;
             var password = req.body.password;
-
 
             console.log(" Email: " + email + " Pass: " + password);
 
@@ -144,10 +107,42 @@ module.exports = function(app){
 
                 }
             );
-
-
-
     });
+
+
+    app.get('/updateprofile', function(req, res){
+
+        if(req.session.email!=null)
+            res.render("updateprofile.html");
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><h4><a href="/loginopen">Click here to login</a></h4>');
+    });
+
+
+    app.get('/update', function(req, res){
+        res.redirect("index.html");
+
+        var cred={
+        email:req.session.email,
+        newname:req.param('newname'),
+        newemail:req.param('newemail'),
+        newjoining:req.param('updatedjoining'),
+        newposition:req.param('updatedposition'),
+        newemployeeid:req.param('updatedemployeeid')}
+
+        connection.updateuser(cred,function(o)
+            {
+                if(o==1)
+                {
+                    req.session.email=cred.newemail;
+                    console.log("Email Address Updated to "+req.session.email);
+                }
+            }
+        );
+    });
+
+
+
 
     app.get('/logout', function(req, res){
         console.log("Logged out from "+req.session.email);
@@ -156,6 +151,7 @@ module.exports = function(app){
 
     });
 
+
     app.get('/complaints', function(req, res){
 
         if(req.session.email!=null)
@@ -163,6 +159,7 @@ module.exports = function(app){
         else
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
+
 
     app.get('/addcomplaint', function(req, res){
         res.redirect("index.html");
@@ -178,6 +175,7 @@ module.exports = function(app){
         connection.addcomplaint(email,title,description,priority,now);
     });
 
+
     app.get('/suggestions', function(req, res){
 
         if(req.session.email!=null)
@@ -185,6 +183,7 @@ module.exports = function(app){
         else
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
+
 
     app.get('/addsuggestion', function(req, res){
         res.redirect("index.html");
@@ -208,6 +207,7 @@ module.exports = function(app){
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
+
     app.get('/addidea', function(req, res){
         res.redirect("index.html");
         var email = req.session.email;
@@ -221,6 +221,47 @@ module.exports = function(app){
 
         connection.addidea(email,title,description,product,now);
     });
+
+
+    app.get('/employeetracker', function(req, res){
+
+        if(req.session.email!=null)
+            res.render("employeetracker.html");
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/addtask', function(req, res){
+        res.redirect("index.html");
+        var email = req.session.email;
+        var assigned = req.param('assigndate')+" "+req.param('assigntime');
+        var completed = req.param('completeddate')+" "+req.param('completedtime');
+        var description = req.param('description');
+        var assigner = req.param('assigner');
+        var d = new Date();
+        var now = d.toLocaleString();
+
+        console.log("Task assigned at: " + assigned + " Task completed at: " + completed +" Description: " +description+ " Assigner: " +assigner);
+
+        connection.addtask(email,assigned,completed,description,assigner,now);
+    });
+
+
+    app.get('/fetching', function(req, res){
+
+        connection.fetcher(function(data)
+            {
+                console.log(data);
+                res.render("testing.html",data);
+
+            }
+        );
+    });
+
+
+
+
 
 
 }

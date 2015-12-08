@@ -118,13 +118,8 @@
                     <span ng-show = "registerForm.name.$error.minlength">Name is too short.</span>
                 </div>
 
-                <!--<div style="color: red" ng-messages="registerForm.name.$error" ng-if="registerForm.name.$touched">
-                    <p ng-message="required">Name is required.</p>
-                    <p ng-message="text">Name is invalid.</p>
-                </div>-->
-
                 <label>Email:</label>
-                <input type="email" name="email" ng-model="email" required placeholder="john.doe@hippo.com"  >
+                <input type="email" name="email" ng-model="email" required placeholder="john.doe@hippoinnovations.com"  >
                 <div class="error" style="color: red" ng-if="registerForm.email.$touched" ng-messages="registerForm.email.$error">
                     <span ng-show = "registerForm.email.$error.required">Email is required.</span>
                     <span ng-show = "registerForm.email.$error.email">Email is invalid</span>

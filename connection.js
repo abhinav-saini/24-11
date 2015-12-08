@@ -246,6 +246,194 @@ var addidea= function(email,title,description,product,now) {
 }
 
 
+var addtask= function(email,assigned,completed,description,assigner,now) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employeetracker');
+
+            //Create some productideas
+            var data = {email:email,assignedat:assigned,completedat:completed,description:description,assigner:assigner,postdate:now};
+
+
+            /* var user2 = {name: 'modulus user', age: 22, roles: ['user']};
+             var user3 = {name: 'modulus super admin', age: 92, roles: ['super-admin', 'admin', 'moderator', 'user']};*/
+
+            // Insert some productidea
+            collection.insert(data, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Inserted %d documents into the "employeetracker" collection. The documents inserted with "_id" are:', result.length, result);
+                }
+
+                db.close();
+            });
+
+        }
+    });
+}
+
+
+var updateuser = function(cred,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employees');
+
+            if(cred.newemail==""&&cred.newname!="")
+            {
+                collection.update({ email: cred.email },
+                    { $set:
+                    {
+                        name:cred.newname,
+                        employeeid:cred.newemployeeid,
+                        joining_date:cred.newjoining,
+                        position:cred.newposition
+                    }
+                    }, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('User Profile Updated');
+                    }
+                    db.close();
+                });
+                callback(0);
+            }
+
+            else if(cred.newemail!=""&&cred.newname=="")
+            {
+                collection.update({email:cred.email },
+                    { $set:
+                    {
+                        email:cred.newemail,
+                        employeeid:cred.newemployeeid,
+                        joining_date:cred.newjoining,
+                        position:cred.newposition
+                    }
+                    }, function (err, result) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log('User Profile Updated');
+                        }
+
+                        db.close();
+                    });
+                callback(1);
+            }
+
+            else if(cred.newemail!=""&&cred.newname!="")
+            {
+                collection.update({email:cred.email },
+                    { $set:
+                    {
+                        email:cred.newemail,
+                        name:cred.newname,
+                        employeeid:cred.newemployeeid,
+                        joining_date:cred.newjoining,
+                        position:cred.newposition
+                    }
+                    }, function (err, result) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log('User Profile Updated');
+                        }
+
+                        db.close();
+                    });
+                callback(1);
+            }
+
+
+            else if(cred.newemail==""&&cred.newname=="")
+            {
+                collection.update({ email: cred.email },
+                    { $set:
+                    {
+                        employeeid:cred.newemployeeid,
+                        joining_date:cred.newjoining,
+                        position:cred.newposition
+                    }
+                    }, function (err, result) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log('User Profile Updated');
+                        }
+
+                        db.close();
+                    });
+                callback(0);
+            }
+
+        }
+    });
+}
+
+
+///////////////////////////////////////////FETCHING/////////////////////////////////////////////////////////////////
+
+var fetcher= function(callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employees');
+
+            collection.findOne({},function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
 
 
 module.exports.add=add;
@@ -254,3 +442,6 @@ module.exports.checkDuplicate = checkDuplicate;
 module.exports.addcomplaint=addcomplaint;
 module.exports.addsuggestion=addsuggestion;
 module.exports.addidea=addidea;
+module.exports.addtask=addtask;
+module.exports.updateuser=updateuser;
+module.exports.fetcher=fetcher;

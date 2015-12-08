@@ -204,6 +204,48 @@ var addsuggestion= function(email,title,description,now) {
 }
 
 
+var addidea= function(email,title,description,product,now) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('productideas');
+
+            //Create some productideas
+            var data = {email:email,title:title,description:description,product:product,date:now};
+
+
+            /* var user2 = {name: 'modulus user', age: 22, roles: ['user']};
+             var user3 = {name: 'modulus super admin', age: 92, roles: ['super-admin', 'admin', 'moderator', 'user']};*/
+
+            // Insert some productidea
+            collection.insert(data, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Inserted %d documents into the "productideas" collection. The documents inserted with "_id" are:', result.length, result);
+                }
+
+                db.close();
+            });
+
+        }
+    });
+}
+
+
 
 
 module.exports.add=add;
@@ -211,3 +253,4 @@ module.exports.check=check;
 module.exports.checkDuplicate = checkDuplicate;
 module.exports.addcomplaint=addcomplaint;
 module.exports.addsuggestion=addsuggestion;
+module.exports.addidea=addidea;

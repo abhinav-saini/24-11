@@ -200,5 +200,27 @@ module.exports = function(app){
     });
 
 
+    app.get('/productideas', function(req, res){
+
+        if(req.session.email!=null)
+            res.render("productideas.html");
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/addidea', function(req, res){
+        res.redirect("index.html");
+        var email = req.session.email;
+        var title = req.param('title');
+        var description = req.param('description');
+        var product = req.param('product');
+        var d = new Date();
+        var now = d.toLocaleString();
+
+        console.log("Title: " + title + "Description: " +description+ "Product: " +product);
+
+        connection.addidea(email,title,description,product,now);
+    });
+
 
 }

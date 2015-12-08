@@ -15,6 +15,17 @@
         });
     </script>
 
+    <script type="text/javascript">
+        $document.ready(
+        var lval = JSON.stringify(val);
+        if(lval == 1)
+            alert("Wow")
+
+        )
+
+
+    </script>
+
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css"/>
 
     <style>
@@ -105,7 +116,9 @@
         }
 
     </style>
+
 </head>
+
 <body>
 
 <div class="container">
@@ -121,11 +134,12 @@
     <div class="main">
         <!--Register Form-->
     <div id="box" ng-app="registerApp" ng-controller="registerController">
-    <form class="form" name="registerForm" method="get" id="myForm" action="/adduser" novalidate>
+    <form class="form" name="registerForm" method="post" id="myForm" action="/adduser" novalidate>
 
         <h2>| Hippo Feedo |</h2>
         <hr>
         <p style="text-align:center" >Please enter all the fields</p>
+        <br>
         <div class="formElement">
         <label>Name:</label>
         <input type="text" name="name" ng-model="name" required placeholder="John Doe" minlength="4" ng-pattern="/^[a-zA-Z\s]*$/">
@@ -188,7 +202,7 @@
 
     </form>
       <hr>
-        <form action="/loginopen" method="get">
+        <form action="/loginopen" method="post">
             <input type="submit" value="Already Registered? Click here!" />
         </form>
 

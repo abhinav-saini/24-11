@@ -96,6 +96,10 @@
             font-size: 14px;
         }
 
+        .formElement {
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -111,36 +115,40 @@
     </div>
     <div class="main">
         <div id="box" ng-app="loginApp" ng-controller="loginController">
-            <form class="form" name="loginForm" novalidate method="get" action="/checkuser">
+            <form class="form" name="loginForm" novalidate method="post" action="/checkuser">
 
                 <h2>| HippoFeedo |</h2>
                 <hr>
                 <p style="text-align:center">Please enter your login credentials to access HippoFeedo</p>
                 <br>
+                <div class="formElement">
                 <label>Email :</label>
                 <input type="email" name="email" id="email" ng-model="email" required placeholder="john.doe@hippo.com">
                 <div class="error" style="color: red" ng-if="loginForm.email.$touched" ng-messages="loginForm.email.$error">
                     <span ng-show = "loginForm.email.$error.required">Email is required.</span>
                     <span ng-show = "loginForm.email.$error.email">Email is invalid</span>
                 </div>
-
-                <label>Password :</label>
-                <input type="password" name="password" id="password" ng-model="password" required minlength="8" placeholder="password">
-                <div class="error" style = "color:red" ng-if="loginForm.password.$touched" ng-show = "loginForm.password.$error">
-                    <span ng-show = "loginForm.password.$error.required">Password is required</span>
-                    <span ng-show = "loginForm.password.$error.minlength">Password is too short</span>
                 </div>
 
+                <div class="formElement">
+                <label>Password :</label>
+                <input type="password" name="password" id="password" ng-model="password" required placeholder="password">
+                <div class="error" style = "color:red" ng-if="loginForm.password.$touched" ng-show = "loginForm.password.$error">
+                    <span ng-show = "loginForm.password.$error.required">Password is required</span>
+                </div>
+                </div>
+
+                <div class="formElement">
                 <!--<input type="submit" name="login" id="login" value="Login">-->
                 <input type="submit" id="login" name="login" ng-model="login" value="Login" ng-disabled="loginForm.email.$error.email || loginForm.email.$error.required
                                                                                     || loginForm.password.$error.required || loginForm.password.$error.minlength">
-
+                </div>
 
                 <hr>
 
             </form>
 
-            <form action="/registeropen" method="get">
+            <form action="/registeropen" method="post">
                 <input type="submit" value="Click Here To Register" />
             </form>
 

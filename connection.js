@@ -472,6 +472,42 @@ var addmeeting= function(email,requestdate,reason,companions) {
 }
 
 
+var addexperience= function(email,title,description,postdate) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employeeexperience');
+
+            //Create some experience
+            var data = {email:email,title:title,description:description,postdate:postdate};
+
+            // Insert some experience
+            collection.insert(data, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Inserted %d documents into the "employeeexperience" collection. The documents inserted with "_id" are:', result.length, result);
+                }
+
+                db.close();
+            });
+
+        }
+    });
+}
 
 
 
@@ -486,3 +522,4 @@ module.exports.addtask=addtask;
 module.exports.updateuser=updateuser;
 //module.exports.fetcher=fetcher;
 module.exports.addmeeting=addmeeting;
+module.exports.addexperience=addexperience;

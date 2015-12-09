@@ -285,6 +285,30 @@ module.exports = function(app){
         connection.addmeeting(email,requestdate,reason,companions);
     });
 
+    app.get('/employeeexperience', function(req, res){
+
+        if(req.session.email!=null)
+            res.render("employeeexperience.html");
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/addexperience', function(req, res){
+        res.redirect("index.html");
+        var email = req.session.email;
+
+        var title = req.param('title');
+        var description = req.param('description');
+        var d = new Date();
+        var now = d.toLocaleString();
+
+        console.log("Experienced by: " + email + " Experienced at: " + now);
+
+        connection.addexperience(email,title,description,now);
+    });
+
+
 
 
 

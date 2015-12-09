@@ -335,7 +335,6 @@ module.exports = function(app){
                 res.render("acomplaints.html", {data: data});
 
             });
-
         }
 
         else
@@ -383,8 +382,7 @@ module.exports = function(app){
         });
 
         }
-
-        else
+       else
         res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
@@ -395,12 +393,11 @@ module.exports = function(app){
         connection.loadallnames(function(data) {
             console.log(data);
             res.render("aemployeetracker.html",{data:data});
-
         });
 
         }
 
-        else
+       else
         res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
@@ -413,12 +410,9 @@ module.exports = function(app){
         connection.loadtasks(email,function(data){
         res.render("atracker.html",{data:data});
 
-
-
         });
 
         }
-
         else
         res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });

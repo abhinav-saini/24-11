@@ -70,7 +70,7 @@
     <div class="inner maxheight">
         <h3>Employee Tracking Zone</h3>
 
-
+<% if(data!=""){ %>
         <h4>Tracking <%= data[0].email %></h4>
         <hr>
 
@@ -93,7 +93,10 @@
             <% } %>
         </table>
 
+<% } else {%>
 
+        <div><h3>No Record Found!</h3></div>
+        <% } %>
 
 
     </div>

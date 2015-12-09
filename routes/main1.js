@@ -68,8 +68,8 @@ module.exports = function(app){
     app.get('/index.html', function(req, res){
 
             if (req.session.email!=null) {
-
-                res.render("index.html");
+                var email=req.session.email;
+                res.render("index.html",{"email":email});
             }
         else
             {
@@ -248,18 +248,42 @@ module.exports = function(app){
     });
 
 
-    app.get('/fetching', function(req, res){
+
+    /* ////FETCHER///
+     app.get('/fetching', function(req, res){
 
         connection.fetcher(function(data)
             {
-                console.log(data);
-                res.render("testing.html",data);
-
+                res.render("testing.html",{"data":data});
             }
         );
+    });  */
+
+    app.get('/waitingqueue', function(req, res){
+
+        if(req.session.email!=null)
+            res.render("waitingqueue.html");
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
+    app.get('/addmeeting', function(req, res){
+        res.redirect("index.html");
+        var email = req.session.email;
 
+        var d = new Date();
+        var requestdate= d.toDateString()+" "+req.param('requesttime');
+
+       // var assigned = req.param('assigndate')+" "+req.param('assigntime');
+        var reason = req.param('reason');
+        var companions = req.param('companions');
+        //var d = new Date();
+        //var now = d.toLocaleString();
+
+        console.log("Requested by: " + email + " Requested at: " + requestdate);
+
+        connection.addmeeting(email,requestdate,reason,companions);
+    });
 
 
 

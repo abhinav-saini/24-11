@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>| HippoFeedo - Suggestions |</title>
+    <title>| HippoFeedo - WaitingQueue |</title>
     <link rel="icon" href="images/favicon.ico">
     <link rel="shortcut icon" href="images/favicon.ico" />
     <link rel="stylesheet" href="css/form.css">
@@ -63,36 +63,54 @@
             <div class="grid_12">
                 <div class="box">
                     <div class="inner maxheight">
-                        <h3>Suggestions Submission Zone</h3>
+                        <h3>Meeting-Request Zone</h3>
                         <div class="map">
                             <div class="clear"></div>
                             <div class="fleft">
-                                <h4>Please fill all the fields to submit the suggestion</h4>
+                                <h4>Please fill all the fields to request a meeting</h4>
                                 <hr>
-                                <form method="get" id="form" action="/addsuggestion" novalidate>
+                                <form method="get" id="form" action="/addmeeting" novalidate>
                                     <div class="success_wrapper">
-                                        <div class="success-message">Suggestion form submitted</div>
+                                        <div class="success-message">Waiting-Queue form submitted</div>
                                     </div>
-                                    <div><strong>Suggestion Title</strong></div>
+                                    <div><strong>Request a meeting at:</strong></div>
                                     <label class="name">
-                                        <input type="text" placeholder="Suggestion title..." data-constraints="@Required" id="title" name="title"/>
+                                        <input type="time" name="requesttime" name="requesttime">
                                         <span class="empty-message">*This field is required.</span>
                                     </label>
                                     </br>
                                     </br>
                                     </br>
-                                    <div><strong>Suggestion Description</strong></div>
+                                    </br>
+                                    <div><strong>Reason</strong></div>
                                     <label class="message">
-                                        <textarea placeholder="Explain the suggestion briefly..." data-constraints='@Required @Length(min=20,max=999999)' id="description" name="description"></textarea>
+                                        <textarea placeholder="Explain the reason for requesting a meeting..." data-constraints='@Required @Length(min=10,max=999999)' id="reason" name="reason"></textarea>
                                         <span class="empty-message">*This field is required.</span>
-                                        <span class="error-message">*Suggestion Description is too short.</span>
+                                        <span class="error-message">*Reason description is too short.</span>
+                                    </label>
+                                    </br></br></br></br>
+                                    <div><strong>Priority</strong></div>
+                                    <label class="iii">
+                                        <select id="priority" name="priority">
+                                            <option>Low</option>
+                                            <option>Medium</option>
+                                            <option>High</option>
+                                        </select>
+                                        <span class="empty-message">*This field is required.</span>
+                                    </label>
+                                    </br></br></br></br>
+                                    <div><strong>Other employees you want to join the requested meeting: (Optional) </strong></div>
+                                    <label clss="name">
+                                        <input type="text" placeholder="Insert the name of the other employees here..." id="companions" name="companions"/>
                                     </label>
                                     <div>
+
                                         <div class="btns">
                                             <a href="#" data-type="reset" class="btn">Clear</a>
                                         </div>
+
                                     </div>
-                                    <input type="submit" id="cmplntsbmt" value="Submit Suggestion">
+                                    <input type="submit" id="cmplntsbmt" value="Request a Meeting">
                                 </form>
                             </div>
                         </div>

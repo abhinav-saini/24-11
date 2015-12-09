@@ -402,7 +402,7 @@ var updateuser = function(cred,callback) {
 
 ///////////////////////////////////////////FETCHING/////////////////////////////////////////////////////////////////
 
-var fetcher= function(callback) {
+/* var fetcher= function(callback) {
 
     var mongodb = require('mongodb');
     var MongoClient = mongodb.MongoClient;
@@ -421,18 +421,58 @@ var fetcher= function(callback) {
             // Get the documents collection
             var collection = db.collection('employees');
 
-            collection.findOne({},function (err, result) {
+            collection.find({}).toArray(function (err, result) {
                 if (err) {
                     console.log(err);
                 } else {
-
                     callback(result);
                 }
 
             });
         }
     });
+} */
+
+var addmeeting= function(email,requestdate,reason,companions) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('waitingqueue');
+
+            //Create some meeting
+            var data = {email:email,requestdate:requestdate,reason:reason,companions:companions};
+
+
+            // Insert some meeting
+            collection.insert(data, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Inserted %d documents into the "waitingqueue" collection. The documents inserted with "_id" are:', result.length, result);
+                }
+
+                db.close();
+            });
+
+        }
+    });
 }
+
+
+
 
 
 
@@ -444,4 +484,5 @@ module.exports.addsuggestion=addsuggestion;
 module.exports.addidea=addidea;
 module.exports.addtask=addtask;
 module.exports.updateuser=updateuser;
-module.exports.fetcher=fetcher;
+//module.exports.fetcher=fetcher;
+module.exports.addmeeting=addmeeting;

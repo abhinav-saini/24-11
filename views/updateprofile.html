@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>| HippoFeedo - Suggestions |</title>
+    <title>| HippoFeedo - UpdateProfile |</title>
     <link rel="icon" href="images/favicon.ico">
     <link rel="shortcut icon" href="images/favicon.ico" />
     <link rel="stylesheet" href="css/form.css">
@@ -63,36 +63,54 @@
             <div class="grid_12">
                 <div class="box">
                     <div class="inner maxheight">
-                        <h3>Suggestions Submission Zone</h3>
+                        <h3>Update Profile</h3>
                         <div class="map">
                             <div class="clear"></div>
                             <div class="fleft">
-                                <h4>Please fill all the fields to submit the suggestion</h4>
+                                <h4>Please fill the fields you want to update and leave rest of the fields as it is</h4>
                                 <hr>
-                                <form method="get" id="form" action="/addsuggestion" novalidate>
+                                <form method="get" id="form" action="/update" novalidate>
                                     <div class="success_wrapper">
-                                        <div class="success-message">Suggestion form submitted</div>
+                                        <div class="success-message">Profile Updated</div>
                                     </div>
-                                    <div><strong>Suggestion Title</strong></div>
+                                    <div><strong>Position:</strong></div>
                                     <label class="name">
-                                        <input type="text" placeholder="Suggestion title..." data-constraints="@Required" id="title" name="title"/>
-                                        <span class="empty-message">*This field is required.</span>
+                                        <input type="text" placeholder="e.g. Web Developer" id="updatedposition" name="updatedposition"/>
                                     </label>
                                     </br>
                                     </br>
                                     </br>
-                                    <div><strong>Suggestion Description</strong></div>
-                                    <label class="message">
-                                        <textarea placeholder="Explain the suggestion briefly..." data-constraints='@Required @Length(min=20,max=999999)' id="description" name="description"></textarea>
-                                        <span class="empty-message">*This field is required.</span>
-                                        <span class="error-message">*Suggestion Description is too short.</span>
+                                    </br>
+                                    <div><strong>Joining Date:</strong></div>
+                                    <label class="name">
+                                        <input type="date" id="updatedjoining" name="updatedjoining"/>
                                     </label>
+                                    </br></br></br></br>
+                                    <div><strong>Employee ID:</strong></div>
+                                    <label class="name">
+                                        <input type="number" id="updatedemployeeid" name="updatedemployeeid"/>
+                                    </label>
+                                    </br></br></br></br>
+                                    <hr>
+                                    <div><strong>New Name:</strong></div>
+                                    <label class="name">
+                                        <input type="text" placeholder="New Name..." id="newname" name="newname"/>
+                                    </label>
+                                    </br></br></br></br>
+                                    <div><strong>New Email Address:</strong></div>
+                                    <label class="name">
+                                        <input type="text" placeholder="New Email..." id="newemail" name="newemail"/>
+                                    </label>
+
                                     <div>
+
+
                                         <div class="btns">
                                             <a href="#" data-type="reset" class="btn">Clear</a>
                                         </div>
+
                                     </div>
-                                    <input type="submit" id="cmplntsbmt" value="Submit Suggestion">
+                                    <input type="submit" id="cmplntsbmt" value="Submit">
                                 </form>
                             </div>
                         </div>

@@ -77,6 +77,18 @@ module.exports = function(app){
             }
     });
 
+    app.get('/adminindex.html', function(req, res){
+
+        if (req.session.email!=null) {
+            var email=req.session.email;
+            res.render("adminindex.html",{"email":email});
+        }
+        else
+        {
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+        }
+    });
+
 
     app.post('/checkuser', function(req, res) {
 
@@ -99,10 +111,14 @@ module.exports = function(app){
                         res.redirect("index.html");
                     }
 
-                    else
+                    else if(req.session.email&&o==0)
                     {
                         req.session.email=null;
                         res.end('<div><h1>Username and password is invalid!</h1></div></br><a href="/loginopen">Click here to login again</a>');
+                    }
+                    else if(req.session.email&&o==2)
+                    {
+                        res.redirect("adminindex.html");
                     }
 
                 }
@@ -308,7 +324,104 @@ module.exports = function(app){
         connection.addexperience(email,title,description,now);
     });
 
+///////////////////////////////////////////////////ADMIN ROUTES//////////////////////////////////////////////////////
 
+
+    app.get('/acomplaints', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            connection.loadcomplaints(function(data) {
+                res.render("acomplaints.html", {data: data});
+
+            });
+
+        }
+
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/asuggestions', function(req, res){
+
+        if(req.session.email!=null)
+        {
+        connection.loadsuggestions(function(data) {
+            res.render("asuggestions.html", {data: data});
+
+        });
+
+        }
+
+        else
+        res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/aproductideas', function(req, res){
+
+        if(req.session.email!=null)
+        {
+        connection.loadideas(function(data) {
+            res.render("aproductideas.html", {data: data});
+
+        });
+
+        }
+
+        else
+        res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/loadname', function(req, res){
+
+        if(req.session.email!=null)
+        {
+        connection.loadname("rajesh@gmail.com",function(data) {
+            console.log(data);
+            res.send(data);
+
+        });
+
+        }
+
+        else
+        res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/aemployeetracker', function(req, res){
+
+       if(req.session.email!=null)
+        {
+        connection.loadallnames(function(data) {
+            console.log(data);
+            res.render("aemployeetracker.html",{data:data});
+
+        });
+
+        }
+
+        else
+        res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/track', function(req, res){
+
+        if(req.session.email!=null)
+        {
+        var email=req.param('email');
+        console.log(email);
+        connection.loadtasks(email,function(data){
+        res.render("atracker.html",{data:data});
+
+
+
+        });
+
+        }
+
+        else
+        res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
 
 
 

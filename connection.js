@@ -69,8 +69,16 @@ var check= function(cred,callback)
                     callback(1);
 
                 } else {
-                    console.log("Not found: " + cred.email);
-                    callback(0);
+
+                    checkadmin(cred,function(ob) {
+                    if(ob==2)
+                    callback(2);
+                        else
+                        callback(0);
+                    });
+
+                    //console.log("Not found: " + cred.email);
+                    //callback(0);
                 }
 
                 db.close();
@@ -79,6 +87,45 @@ var check= function(cred,callback)
         }
     });
 }
+
+
+var checkadmin= function(cred,callback)
+{
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            var collection = db.collection('admin');
+
+            collection.findOne({ email: cred.email, password: cred.password }, function(err, doc){
+                if(err) throw err;
+
+                if(doc) {
+                    console.log("Found admin: " + cred.email + ", pass admin=" + cred.password);
+                    callback(2);
+
+                } else {
+                            callback(0);
+                }
+
+                db.close();
+            });
+
+        }
+    });
+}
+
 
 var checkDuplicate= function(email,callback)
 {
@@ -510,6 +557,202 @@ var addexperience= function(email,title,description,postdate) {
 }
 
 
+//////////////////////////////////////////////ADMIN CONNCECTIONS///////////////////////////////////////////////////
+
+var loadcomplaints= function(callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('complaints');
+
+            collection.find({}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+var loadsuggestions= function(callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('suggestions');
+
+            collection.find({}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+
+var loadideas= function(callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('productideas');
+
+            collection.find({}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+var loadname=function(email,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employees');
+
+            collection.findOne({email:email},{name:1,_id:0},function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(result);
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+
+var loadallnames= function(callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employees');
+
+            collection.find({},{name:1,email:1,_id:0}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+
+var loadtasks= function(email,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employeetracker');
+
+            collection.find({email:email}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(result);
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+
+
+
 
 
 module.exports.add=add;
@@ -523,3 +766,10 @@ module.exports.updateuser=updateuser;
 //module.exports.fetcher=fetcher;
 module.exports.addmeeting=addmeeting;
 module.exports.addexperience=addexperience;
+///admin connections////
+module.exports.loadcomplaints=loadcomplaints;
+module.exports.loadsuggestions=loadsuggestions;
+module.exports.loadideas=loadideas;
+module.exports.loadname=loadname;
+module.exports.loadallnames=loadallnames;
+module.exports.loadtasks=loadtasks;

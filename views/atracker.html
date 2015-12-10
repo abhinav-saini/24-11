@@ -81,15 +81,21 @@
                 <th class="tg-yw4l">Assigned At</th>
                 <th class="tg-yw4l">Completed At</th>
                 <th class="tg-yw4l">Assigned By</th>
+                <th class="tg-yw4l">Action</th>
             </tr>
             <% for (var i=0;i<data.length;i++){%>
+            <form method="get" action="/removetask" novalidate>
+                <input type="hidden" value="<%= data[i].email %>" name="email" id="email">
+                <input type="hidden" value="<%= data[i]._id %>" name="taskid" id="taskid">
             <tr>
                 <td class="tg-yw4l"><%= data[i].postdate %></td>
                 <td class="tg-yw4l"><%= data[i].description %></td>
                 <td class="tg-yw4l"><%= data[i].assignedat %></td>
                 <td class="tg-yw4l"><%= data[i].completedat %></td>
                 <td class="tg-yw4l"><%= data[i].assigner %></td>
+                <td class="tg-yw4l"><input type="submit" value="Remove Task"></td>
             </tr>
+            </form>
             <% } %>
         </table>
 

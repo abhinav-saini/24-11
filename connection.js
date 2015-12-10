@@ -814,6 +814,45 @@ var loadexperience= function(email,callback) {
     });
 }
 
+var removetask= function(cred,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var ObjectID = require('mongodb').ObjectID;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employeetracker');
+
+            var email=cred.email;
+            var taskid=cred.taskid;
+
+            var objectId = new ObjectID(taskid);
+            collection.findOneAndDelete({email:email,_id:objectId},function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Removed!");
+                    callback(result);
+                }
+                db.close();
+            });
+        }
+    });
+}
+
+
 
 
 
@@ -839,3 +878,4 @@ module.exports.loadtasks=loadtasks;
 module.exports.loadallreason=loadtasks;
 module.exports.loadallmeetings=loadallmeetings;
 module.exports.loadexperience=loadexperience;
+module.exports.removetask=removetask;

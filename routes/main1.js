@@ -464,5 +464,34 @@ module.exports = function(app){
     });
 
 
+    app.get('/removetask', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            var email=req.param('email');
+            var taskid=req.param('taskid');
+
+
+            cred={
+                email:email,
+                taskid:taskid
+            }
+            connection.removetask(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                var email=req.param('email');
+                connection.loadtasks(email,function(data){
+                    res.render("atracker.html",{data:data});
+
+                });
+
+            });
+
+          }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
 
 }

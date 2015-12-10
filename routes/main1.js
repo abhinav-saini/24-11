@@ -60,7 +60,7 @@ module.exports = function(app){
     });
 
 
-    app.post('/registeropen', function(req, res){
+    app.get('/registeropen', function(req, res){
         res.render("register.html");
     });
 

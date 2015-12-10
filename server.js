@@ -13,7 +13,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 app.use(bodyParser());
 app.use(express.static(__dirname + "/public", {maxAge: 3456700000}));
-router = require("./routes/main1")(app);
+router = require("./routes/main")(app);
 
 app.set('views',__dirname + '/views');
 app.set('view engine', 'ejs');

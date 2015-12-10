@@ -1,3 +1,8 @@
 # HippoFeedo
 # Created by Abhinav
-# Run command db.admin.insert({email:admin@hippoinnovations.com,password:ANYPASSWORD}) in terminal and then Run the file server.js
+Steps:
+# Run the following command in terminal:
+> mongo 
+> use Hippofeedo
+> db.admin.insert({email:admin@hippoinnovations.com,password:ANYPASSWORD})
+# Now run the file server.js

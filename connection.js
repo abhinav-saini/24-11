@@ -853,6 +853,196 @@ var removetask= function(cred,callback) {
 }
 
 
+var removeexperience= function(cred,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var ObjectID = require('mongodb').ObjectID;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employeeexperience');
+
+            var email=cred.email;
+            var experienceid=cred.experienceid;
+            var objectId = new ObjectID(experienceid);
+            collection.findOneAndDelete({email:email,_id:objectId},function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Removed!");
+                    callback(result);
+                }
+                db.close();
+            });
+        }
+    });
+}
+
+
+var removemeeting= function(cred,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var ObjectID = require('mongodb').ObjectID;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('waitingqueue');
+
+            var email=cred.email;
+            var meetingid=cred.meetingid;
+            var objectId = new ObjectID(meetingid);
+            collection.findOneAndDelete({email:email,_id:objectId},function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Removed!");
+                    callback(result);
+                }
+                db.close();
+            });
+        }
+    });
+}
+
+
+var removeidea= function(cred,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var ObjectID = require('mongodb').ObjectID;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('productideas');
+
+            var email=cred.email;
+            var ideaid=cred.ideaid;
+            var objectId = new ObjectID(ideaid);
+            collection.findOneAndDelete({email:email,_id:objectId},function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Removed!");
+                    callback(result);
+                }
+                db.close();
+            });
+        }
+    });
+}
+
+
+var removesuggestion= function(cred,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var ObjectID = require('mongodb').ObjectID;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('suggestions');
+
+            var email=cred.email;
+            var suggestionid=cred.suggestionid;
+            var objectId = new ObjectID(suggestionid);
+            collection.findOneAndDelete({email:email,_id:objectId},function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Removed!");
+                    callback(result);
+                }
+                db.close();
+            });
+        }
+    });
+}
+
+
+var removecomplaint= function(cred,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var ObjectID = require('mongodb').ObjectID;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('complaints');
+
+            var email=cred.email;
+            var complaintid=cred.complaintid;
+            var objectId = new ObjectID(complaintid);
+            collection.findOneAndDelete({email:email,_id:objectId},function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Removed!");
+                    callback(result);
+                }
+                db.close();
+            });
+        }
+    });
+}
+
+
 
 
 
@@ -879,3 +1069,8 @@ module.exports.loadallreason=loadtasks;
 module.exports.loadallmeetings=loadallmeetings;
 module.exports.loadexperience=loadexperience;
 module.exports.removetask=removetask;
+module.exports.removeexperience=removeexperience;
+module.exports.removemeeting=removemeeting;
+module.exports.removeidea=removeidea;
+module.exports.removesuggestion=removesuggestion;
+module.exports.removecomplaint=removecomplaint;

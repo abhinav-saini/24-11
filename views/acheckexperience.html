@@ -79,13 +79,19 @@
                 <th class="tg-yw4l">Posted At</th>
                 <th class="tg-yw4l">Title</th>
                 <th class="tg-yw4l">Description</th>
+                <th class="tg-yw4l">Action</th>
             </tr>
             <% for (var i=0;i<data.length;i++){%>
+            <form method="get" action="/removeexperience" novalidate>
+            <input type="hidden" value="<%= data[i].email %>" name="email" id="email">
+            <input type="hidden" value="<%= data[i]._id %>" name="experienceid" id="experienceid">
             <tr>
                 <td class="tg-yw4l"><%= data[i].postdate %></td>
                 <td class="tg-yw4l"><%= data[i].title %></td>
                 <td class="tg-yw4l"><%= data[i].description %></td>
+                <td class="tg-yw4l"><input type="submit" value="Remove Experience"></td>
             </tr>
+            </form>
             <% } %>
         </table>
 

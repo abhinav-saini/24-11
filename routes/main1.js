@@ -194,10 +194,10 @@ module.exports = function(app){
 
     app.get('/suggestions', function(req, res){
 
-        if(req.session.email!=null)
+       if(req.session.email!=null)
             res.render("suggestions.html");
-        else
-            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+       else
+          res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
 
@@ -338,23 +338,23 @@ module.exports = function(app){
             });
         }
 
-        else
+       else
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
     app.get('/asuggestions', function(req, res){
 
-        if(req.session.email!=null)
-        {
+      if(req.session.email!=null)
+       {
         connection.loadsuggestions(function(data) {
             res.render("asuggestions.html", {data: data});
 
-        });
+       });
 
-        }
+      }
 
-        else
-        res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+      else
+      res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
     app.get('/aproductideas', function(req, res){
@@ -488,6 +488,144 @@ module.exports = function(app){
             });
 
           }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/removeexperience', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            var email=req.param('email');
+            var experienceid=req.param('experienceid');
+
+
+            cred={
+                email:email,
+                experienceid:experienceid
+            }
+            connection.removeexperience(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                var email=req.param('email');
+                connection.loadexperience(email,function(data){
+                    res.render("acheckexperience.html",{data:data});
+
+                });
+
+            });
+
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/removemeeting', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            var email=req.param('email');
+            var meetingid=req.param('meetingid');
+
+
+            cred={
+                email:email,
+                meetingid:meetingid
+            }
+            connection.removemeeting(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                connection.loadallmeetings(function(data){
+                    res.render("awaitingqueue.html",{data:data});
+
+                });
+
+            });
+
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/removeidea', function(req, res){
+
+       if(req.session.email!=null)
+       {
+            var email=req.param('email');
+            var ideaid=req.param('ideaid');
+
+            cred={
+                email:email,
+                ideaid:ideaid
+            }
+            connection.removeidea(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                connection.loadideas(function(data){
+                    res.render("aproductideas.html",{data:data});
+
+                });
+
+            });
+
+        }
+       else
+           res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/removesuggestion', function(req, res){
+
+     if(req.session.email!=null)
+       {
+            var email=req.param('email');
+            var suggestionid=req.param('suggestionid');
+
+            cred={
+                email:email,
+                suggestionid:suggestionid
+            }
+            connection.removesuggestion(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                connection.loadsuggestions(function(data){
+                    res.render("asuggestions.html",{data:data});
+
+                });
+
+            });
+
+      }
+        else
+          res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/removecomplaint', function(req, res){
+
+       if(req.session.email!=null)
+       {
+            var email=req.param('email');
+            var complaintid=req.param('complaintid');
+
+            cred={
+                email:email,
+                complaintid:complaintid
+            }
+            connection.removecomplaint(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                connection.loadcomplaints(function(data){
+                    res.render("acomplaints.html",{data:data});
+
+                });
+
+            });
+
+       }
         else
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });

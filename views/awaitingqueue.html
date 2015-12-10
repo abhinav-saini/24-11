@@ -70,6 +70,7 @@
     <div class="inner maxheight">
         <h3>Waiting Queue Zone</h3>
 
+<% if(data!=""){ %>
         <h4>Employees In Queue For Meeting</h4>
         <hr>
         <table class="tg">
@@ -79,19 +80,27 @@
                 <th class="tg-yw4l">Reason</th>
                 <th class="tg-yw4l">Priority</th>
                 <th class="tg-yw4l">Companions</th>
+                <th class="tg-yw4l">Action</th>
             </tr>
             <% for (var i=0;i<data.length;i++){%>
+            <form method="get" action="/removemeeting" novalidate>
+                <input type="hidden" value="<%= data[i].email %>" name="email" id="email">
+                <input type="hidden" value="<%= data[i]._id %>" name="meetingid" id="meetingid">
             <tr>
                 <td class="tg-yw4l"><%= data[i].email %></td>
                 <td class="tg-yw4l"><%= data[i].requestdate %></td>
                 <td class="tg-yw4l"><%= data[i].reason %></td>
                 <td class="tg-yw4l"><%= data[i].priority %></td>
                 <td class="tg-yw4l"><%= data[i].companions %></td>
+                <td class="tg-yw4l"><input type="submit" value="Remove Request"></td>
             </tr>
+            </form>
             <% } %>
-
         </table>
+        <% } else {%>
 
+        <div><h3>No Record Found!</h3></div>
+        <% } %>
 
 
     </div>

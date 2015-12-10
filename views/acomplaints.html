@@ -69,6 +69,7 @@
                     <div class="inner maxheight">
                         <h3>Complaints Zone</h3>
 
+<% if(data!=""){ %>
                                 <h4>Complaints Lodged by Employees</h4>
                                 <hr>
                                 <table class="tg">
@@ -78,17 +79,29 @@
                                         <th class="tg-yw4l">Title</th>
                                         <th class="tg-yw4l">Description</th>
                                         <th class="tg-yw4l">Priority</th>
+                                        <th class="tg-yw4l">Action</th>
                                     </tr>
                                     <% for (var i=0;i<data.length;i++){%>
+                                    <form method="get" action="/removecomplaint" novalidate>
+                                        <input type="hidden" value="<%= data[i].email %>" name="email" id="email">
+                                        <input type="hidden" value="<%= data[i]._id %>" name="complaintid" id="complaintid">
                                     <tr>
                                         <td class="tg-yw4l"><%= data[i].email %></td>
                                         <td class="tg-yw4l"><%= data[i].date %></td>
                                         <td class="tg-yw4l"><%= data[i].title %></td>
                                         <td class="tg-yw4l"><%= data[i].description %></td>
                                         <td class="tg-yw4l"><%= data[i].priority %></td>
+                                        <td class="tg-yw4l"><input type="submit" value="Remove"></td>
                                     </tr>
+                                    </form>
                                     <% } %>
                                 </table>
+
+<% } else {%>
+
+<div><h3>No Record Found!</h3></div>
+ <% } %>
+
 
                     </div>
 

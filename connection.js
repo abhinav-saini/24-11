@@ -480,7 +480,7 @@ var updateuser = function(cred,callback) {
     });
 } */
 
-var addmeeting= function(email,requestdate,reason,companions) {
+var addmeeting= function(email,requestdate,reason,priority,companions) {
 
     var mongodb = require('mongodb');
     var MongoClient = mongodb.MongoClient;
@@ -500,7 +500,7 @@ var addmeeting= function(email,requestdate,reason,companions) {
             var collection = db.collection('waitingqueue');
 
             //Create some meeting
-            var data = {email:email,requestdate:requestdate,reason:reason,companions:companions};
+            var data = {email:email,requestdate:requestdate,reason:reason,priority:priority,companions:companions};
 
 
             // Insert some meeting
@@ -751,6 +751,69 @@ var loadtasks= function(email,callback) {
 }
 
 
+var loadallmeetings= function(callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('waitingqueue');
+
+            collection.find({}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+var loadexperience= function(email,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('employeeexperience');
+
+            collection.find({email:email}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(result);
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
 
 
 
@@ -773,3 +836,6 @@ module.exports.loadideas=loadideas;
 module.exports.loadname=loadname;
 module.exports.loadallnames=loadallnames;
 module.exports.loadtasks=loadtasks;
+module.exports.loadallreason=loadtasks;
+module.exports.loadallmeetings=loadallmeetings;
+module.exports.loadexperience=loadexperience;

@@ -292,13 +292,14 @@ module.exports = function(app){
 
        // var assigned = req.param('assigndate')+" "+req.param('assigntime');
         var reason = req.param('reason');
+        var priority = req.param('priority');
         var companions = req.param('companions');
         //var d = new Date();
         //var now = d.toLocaleString();
 
         console.log("Requested by: " + email + " Requested at: " + requestdate);
 
-        connection.addmeeting(email,requestdate,reason,companions);
+        connection.addmeeting(email,requestdate,reason,priority,companions);
     });
 
     app.get('/employeeexperience', function(req, res){
@@ -415,6 +416,51 @@ module.exports = function(app){
         }
         else
         res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/awaitingqueue', function(req, res){
+
+        if(req.session.email!=null)
+       {
+            connection.loadallmeetings(function(data) {
+                console.log(data);
+                res.render("awaitingqueue.html",{data:data});
+           });
+        }
+
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/aemployeeexperience', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            connection.loadallnames(function(data) {
+                console.log(data);
+                res.render("aemployeeexperience.html",{data:data});
+            });
+
+       }
+
+        else
+           res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/checkexperience', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            var email=req.param('email');
+            connection.loadexperience(email,function(data){
+                res.render("acheckexperience.html",{data:data});
+
+            });
+
+        }
+       else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
 

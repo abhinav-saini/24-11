@@ -294,12 +294,13 @@ module.exports = function(app){
         var reason = req.param('reason');
         var priority = req.param('priority');
         var companions = req.param('companions');
+        var message="";
         //var d = new Date();
         //var now = d.toLocaleString();
 
         console.log("Requested by: " + email + " Requested at: " + requestdate);
 
-        connection.addmeeting(email,requestdate,reason,priority,companions);
+        connection.addmeeting(email,requestdate,reason,priority,companions,message);
     });
 
     app.get('/employeeexperience', function(req, res){
@@ -409,7 +410,7 @@ module.exports = function(app){
             var email=req.param('email');
             console.log(email);
             connection.loadtasks(email,function(data){
-                res.render("atracker.html",{data:data});
+                res.render("atracker.html",{data:data,emailof:email});
 
             });
 
@@ -481,7 +482,7 @@ module.exports = function(app){
                 console.log(data);
                 var email=req.param('email');
                 connection.loadtasks(email,function(data){
-                    res.render("atracker.html",{data:data});
+                    res.render("atracker.html",{data:data,emailof:email});
 
                 });
 
@@ -529,7 +530,6 @@ module.exports = function(app){
             var email=req.param('email');
             var meetingid=req.param('meetingid');
 
-
             cred={
                 email:email,
                 meetingid:meetingid
@@ -539,11 +539,8 @@ module.exports = function(app){
                 console.log(data);
                 connection.loadallmeetings(function(data){
                     res.render("awaitingqueue.html",{data:data});
-
                 });
-
             });
-
         }
         else
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
@@ -632,4 +629,290 @@ module.exports = function(app){
 
 
 
+  /*  app.get('/removeit', function(req, res){
+
+        var doc='todrop';
+            connection.removeall(doc,function(){
+                res.send("removed all");
+
+            });
+
+
+    });  */
+
+
+    app.get('/myproductideas', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            connection.loadideas(function(data) {
+                res.render("myproductideas.html", {data: data});
+
+            });
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+    app.get('/mytasks', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            var email=req.session.email;
+            connection.loadtasks(email,function(data) {
+                res.render("mytasks.html", {data: data});
+
+            });
+
+        }
+
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+
+    app.get('/removemytask', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            var email=req.param('email');
+            var taskid=req.param('taskid');
+
+
+            cred={
+                email:email,
+                taskid:taskid
+            }
+            connection.removetask(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                var email=req.param('email');
+                connection.loadtasks(email,function(data){
+                    res.render("mytasks.html",{data:data});
+
+                });
+
+            });
+
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+
+    app.get('/assigntask', function(req, res){
+        var email = req.query.id;
+        //console.log("In ASSIGN TASK BLOCK");
+       // console.log(email);
+        if(req.session.email!=null)
+        res.render("assigntask.html",{email:email});
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/addtaskto', function(req, res){
+        res.redirect("adminindex.html");
+        var email = req.param('email');
+        var assigned = req.param('assigndate')+" "+req.param('assigntime');
+        var completed = req.param('completeddate')+" "+req.param('completedtime');
+        var description = req.param('description');
+        var assigner = "Administrator";
+        var d = new Date();
+        var now = d.toLocaleString();
+
+        console.log("Task assigned at: " + assigned + " Task completed at: " + completed +" Description: " +description+ " Assigner: " +assigner);
+
+        connection.addtask(email,assigned,completed,description,assigner,now);
+    });
+
+
+    app.get('/myexperiences', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            var email=req.session.email;
+            connection.loadexperience(email,function(data) {
+                res.render("myexperiences.html", {data: data});
+
+            });
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/removemyexperience', function(req, res){
+        if(req.session.email!=null)
+        {
+            var email=req.param('email');
+            var experienceid=req.param('experienceid');
+
+            cred={
+                email:email,
+                experienceid:experienceid
+            }
+            connection.removeexperience(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                var email=req.param('email');
+                connection.loadexperience(email,function(data){
+                    res.render("myexperiences.html",{data:data});
+                });
+            });
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/mymeetings', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            var email=req.session.email;
+            connection.loadmymeetings(email,function(data) {
+                res.render("mymeetings.html", {data: data});
+
+            });
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/removemymeeting', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            var email=req.param('email');
+            var meetingid=req.param('meetingid');
+
+            cred={
+                email:email,
+                meetingid:meetingid
+            }
+            connection.removemeeting(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                connection.loadmymeetings(email,function(data){
+                    res.render("mymeetings.html",{data:data});
+
+                });
+
+            });
+
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+
+    app.get('/addmessage', function(req, res){
+
+        if(req.session.email!=null) {
+            var message = req.param('message');
+            var meetid = req.param('meetid');
+            cred={
+                meetid:meetid,
+                message:message
+            }
+            connection.addmessage(cred,function(data){
+                console.log("Documents Updated");
+                console.log(data);
+                connection.loadallmeetings(function(data) {
+                    console.log(data);
+                    res.render("awaitingqueue.html",{data:data});
+                });
+
+            });
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+
+
+
+    });
+
+
+    app.get('/sendingmessage', function(req, res){
+        var meetid = req.query.id;
+
+        if(req.session.email!=null)
+            res.render("sendingmessage.html",{meetid:meetid});
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+//DEC 11
+
+    app.get('/addupdate', function(req, res){
+        if(req.session.email!=null)
+        {
+
+        res.redirect("index.html");
+
+        var title = req.param('title');
+        var description = req.param('description');
+        var d = new Date();
+        var now = d.toLocaleString();
+
+        console.log("Title: " + title + "Description: " +description);
+
+        connection.addupdate(title,description,now);
+
+        }
+
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/allupdates', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            connection.loadallupdates(function(data)
+                {
+                    res.render("test.html",{data:data});
+
+                });
+        }
+
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/updatesabout', function(req, res){
+        var updateid = req.query.id;
+
+        if(req.session.email!=null)
+        {
+            connection.loadupdateabout(updateid,function(data){
+                    res.render("updatesabout.html",{data:data});
+                }
+            );
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/addnewupdate', function(req, res){
+        if(req.session.email!=null)
+        {
+        res.render("addnewupdate.html");
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+
+    });
+
+
+
 }
+

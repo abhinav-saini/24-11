@@ -480,7 +480,7 @@ var updateuser = function(cred,callback) {
     });
 } */
 
-var addmeeting= function(email,requestdate,reason,priority,companions) {
+var addmeeting= function(email,requestdate,reason,priority,companions,message) {
 
     var mongodb = require('mongodb');
     var MongoClient = mongodb.MongoClient;
@@ -500,7 +500,7 @@ var addmeeting= function(email,requestdate,reason,priority,companions) {
             var collection = db.collection('waitingqueue');
 
             //Create some meeting
-            var data = {email:email,requestdate:requestdate,reason:reason,priority:priority,companions:companions};
+            var data = {email:email,requestdate:requestdate,reason:reason,priority:priority,companions:companions,message:message};
 
 
             // Insert some meeting
@@ -1043,7 +1043,215 @@ var removecomplaint= function(cred,callback) {
 }
 
 
+/* var removeall= function(doc,callback) {
 
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var ObjectID = require('mongodb').ObjectID;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection(doc);
+
+            collection.drop(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Removed Full Collection!");
+                    console.log(result)
+                }
+                db.close();
+            });
+        }
+    });
+} */
+
+
+var loadmymeetings= function(email,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('waitingqueue');
+
+            collection.find({email:email}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+
+var addmessage= function(cred,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var ObjectID = require('mongodb').ObjectID;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('waitingqueue');
+
+            var meetid=cred.meetid;
+            var message=cred.message;
+            var objectId = new ObjectID(meetid);
+            collection.findOneAndUpdate({_id:objectId},{$set:{message:message}},function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Message added!");
+                    callback(result);
+                }
+                db.close();
+            });
+        }
+    });
+}
+
+
+var loadallupdates= function(callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('hippoupdates');
+
+            collection.find({}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+var loadupdateabout= function(updateid,callback) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var ObjectID = require('mongodb').ObjectID;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('hippoupdates');
+
+            var objectId = new ObjectID(updateid);
+
+            collection.find({_id:objectId}).toArray(function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback(result);
+                }
+
+            });
+        }
+    });
+}
+
+
+var addupdate= function(title,description,now) {
+
+    var mongodb = require('mongodb');
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/HippoFeedo';
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        }
+
+        else {
+            console.log('Connection established to', url);
+
+            // Get the documents collection
+            var collection = db.collection('hippoupdates');
+
+            //Create some meeting
+            var data = {title:title,description:description,date:now};
+
+
+            // Insert some meeting
+            collection.insert(data, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Inserted %d documents into the "waitingqueue" collection. The documents inserted with "_id" are:', result.length, result);
+                }
+
+                db.close();
+            });
+
+        }
+    });
+}
 
 
 
@@ -1074,3 +1282,9 @@ module.exports.removemeeting=removemeeting;
 module.exports.removeidea=removeidea;
 module.exports.removesuggestion=removesuggestion;
 module.exports.removecomplaint=removecomplaint;
+/*module.exports.removeall=removeall;*/
+module.exports.loadmymeetings=loadmymeetings;
+module.exports.addmessage=addmessage;
+module.exports.loadallupdates=loadallupdates;
+module.exports.loadupdateabout=loadupdateabout;
+module.exports.addupdate=addupdate;

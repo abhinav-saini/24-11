@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Send Message</title>
+</head>
+<body>
+<form action="/addmessage" method="get">
+
+    <input type="hidden" id="meetid" name="meetid" value="<%= meetid %>">
+    <input type="text" placeholder="Add Your Message Here..." id="message" name="message">
+    <input type="submit" value="Send Message!">
+
+</form>
+
+</body>
+</html>

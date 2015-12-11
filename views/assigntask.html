@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>| HippoFeedo - EmployeeTracker |</title>
+    <title>| HippoFeedo - AssignTask |</title>
     <link rel="stylesheet" href="css/buttoner.css">
     <link rel="icon" href="images/favicon.ico">
     <link rel="shortcut icon" href="images/favicon.ico" />
@@ -47,8 +47,7 @@
         <div class="grid_12">
             <nav class="horizontal-nav full-width horizontalNav-notprocessed">
                 <ul class="sf-menu">
-                    <li class="current"><a href="index.html">Home</a></li>
-                    <li><a href="/updateprofile">Update Profile</a></li>
+                    <li class="current"><a href="adminindex.html">Home</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
             </nav>
@@ -64,19 +63,19 @@
             <div class="grid_12">
                 <div class="box">
                     <div class="inner maxheight">
-                        <h3>Employee-Tracking Zone</h3>
+                        <h3>Assign Task to Employee Zone</h3>
                         <div class="map">
                             <div class="clear"></div>
                             <div class="fleft">
                                 <h4>Please fill all the fields to submit the task details</h4>
                                 <hr>
-                                <form method="get" id="form" action="/addtask" novalidate>
+                                <form method="get" id="form" action="/addtaskto" novalidate>
 
                                     <div><strong>Task assigned/initiated at:</strong></div>
                                     <label class="name">
                                         <input type="date" data-constraints="@Required" id="assigndate" name="assigndate"/>
                                         <input type="time" name="assigntime" name="assigntime">
-                                         <span class="empty-message">*This field is required.</span>
+                                        <span class="empty-message">*This field is required.</span>
                                     </label>
                                     </br>
                                     </br>
@@ -99,14 +98,8 @@
                                         <span class="error-message">*Task Description is too short.</span>
                                     </label>
                                     </br></br></br></br>
-                                    <div><strong>Task assigned by: (Optional)</strong></div>
-                                    <label class="name">
-                                        <input type="text" placeholder="Assigner Name..." id="assigner" name="assigner"/>
-                                    </label>
+                                    <input type="hidden" name="email" id="email" value="<%= email %>">
                                     <div>
-
-                                        </br></br></br>
-
                                         <div class="btns">
                                             <a href="#" data-type="reset" class="btn">Clear</a>
                                         </div>

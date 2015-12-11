@@ -35,6 +35,15 @@
 
 
 
+    <style type="text/css">
+        .html-marquee {height:500px;width:450px;background-color:FFFFCC;background-image:url(http://);font-family:Cursive;font-size:14px;color:FFFFFF;font-weight:bold;border-width:4;border-style:solid;border-color:000000;}
+    </style>
+
+
+
+
+
+
     <script src="js/html5shiv.js"></script>
     <link rel="stylesheet" media="screen" href="css/ie.css">
     <style type="text/css">
@@ -83,45 +92,24 @@
 <div class="grid_12">
 
     <div class="inner maxheight">
-        <h3>Waiting Queue Zone</h3>
+        <h3>Hippo Updates</h3>
+
+        <a href="/addnewupdate" data-type="reset" class="btn">CLICK HERE TO ADD A NEW HIPPO-UPDATE</a>
 
 <% if(data!=""){ %>
-        <h4>Employees In Queue For Meeting</h4>
-        <hr>
-        <table class="tg">
-            <tr>
-                <th class="tg-yw4l">Requested By</th>
-                <th class="tg-yw4l">Requested At</th>
-                <th class="tg-yw4l">Reason</th>
-                <th class="tg-yw4l">Priority</th>
-                <th class="tg-yw4l">Companions</th>
-                <th class="tg-yw4l">Message</th>
-                <th class="tg-yw4l">Action</th>
-                <th class="tg-yw4l">Add Message</th>
-            </tr>
-            <% for (var i=0;i<data.length;i++){%>
 
-            <form method="get" action="/removemeeting" novalidate>
-                <input type="hidden" value="<%= data[i].email %>" name="email" id="email">
-                <input type="hidden" value="<%= data[i]._id %>" name="meetingid" id="meetingid">
-            <tr>
-                <td class="tg-yw4l"><%= data[i].email %></td>
-                <td class="tg-yw4l"><%= data[i].requestdate %></td>
-                <td class="tg-yw4l"><%= data[i].reason %></td>
-                <td class="tg-yw4l"><%= data[i].priority %></td>
-                <td class="tg-yw4l"><%= data[i].companions %></td>
-                <td class="tg-yw4l"><%= data[i].message %></td>
-                <td class="tg-yw4l"><input type="submit" value="Remove Request"/></td>
-                <td class="tg-yw4l"><a href="/sendingmessage?id=<%= data[i]._id %>" id="<%= data[i]._id %>" rel="facebox">Add Message</a></td>
-            </tr>
-            </form>
+        <marquee class="html-marquee" direction="down" behavior="scroll" scrollamount="1" ><img src="http://">
+         <% for (var i=0;i<data.length;i++){%>
+        <a href="/updatesabout?id=<%= data[i]._id %>" id="<%= data[i]._id %>" rel="facebox"><%= data[i].title %></a><br>
             <% } %>
-        </table>
+        </marquee>
 
-        <% } else {%>
 
-        <div><h3>No Record Found!</h3></div>
-        <% } %>
+
+<% } else {%>
+
+        <div><h3>No Updates Found!</h3></div>
+<% } %>
 
 
     </div>

@@ -112,7 +112,7 @@ module.exports = function(app){
                 else if(req.session.email&&o==0)
                 {
                     req.session.email=null;
-                    res.end('<div><h1>Username and password is invalid!</h1></div></br><a href="/loginopen">Click here to login again</a>');
+                    res.end('<div><h1>Username and password is invalid!</h1></div></br><h3><a href="/loginopen">Click here to login again</a></h3>');
                 }
                 else if(req.session.email&&o==2)
                 {

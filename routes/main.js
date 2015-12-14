@@ -107,10 +107,8 @@ module.exports = function(app){
         connection.check(cred,function(o)
             {
                 if (req.session.email && o==1) {
-
                     res.redirect("index.html");
                 }
-
                 else if(req.session.email&&o==0)
                 {
                     req.session.email=null;

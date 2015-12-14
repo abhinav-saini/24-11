@@ -76,7 +76,8 @@
         <div class="grid_12">
             <nav class="horizontal-nav full-width horizontalNav-notprocessed">
                 <ul class="sf-menu">
-                    <li class="current"><a href="/adminindex.html">Home</a></li>
+                    <li class="current"><a href="/index.html">Home</a></li>
+                    <li><a href="/updateprofile">Update Profile</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
             </nav>
@@ -94,22 +95,21 @@
     <div class="inner maxheight">
         <h3>Hippo Updates</h3>
 
-        <a href="/addnewupdate" data-type="reset" class="btn">CLICK HERE TO ADD A NEW HIPPO-UPDATE</a>
+        <a href="/eaddnewupdate" data-type="reset" class="btn">CLICK HERE TO ADD A NEW HIPPO-UPDATE</a>
 
-<% if(data!=""){ %>
+        <% if(data!=""){ %>
 
-        <marquee class="html-marquee" direction="down" behavior="scroll" scrollamount="1" ><img src="http://">
-         <% for (var i=0;i<data.length;i++){%>
-        <a href="/updatesabout?id=<%= data[i]._id %>" id="<%= data[i]._id %>" rel="facebox"><%= data[i].title %></a><br>
+        <marquee class="html-marquee" direction="down" behavior="scroll" scrollamount="2" >
+            <% for (var i=0;i<data.length;i++){%>
+            <div align="center"><h4><a href="/updatesabout?id=<%= data[i]._id %>" id="<%= data[i]._id %>" rel="facebox"><%= data[i].title %></a></h4></div>
             <% } %>
         </marquee>
 
 
-
-<% } else {%>
+        <% } else {%>
 
         <div><h3>No Updates Found!</h3></div>
-<% } %>
+        <% } %>
 
 
     </div>

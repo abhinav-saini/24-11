@@ -134,7 +134,6 @@ module.exports = function(app){
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><h4><a href="/loginopen">Click here to login</a></h4>');
     });
 
-
     app.get('/update', function(req, res){
         res.redirect("index.html");
 
@@ -165,6 +164,22 @@ module.exports = function(app){
         req.session.email=null;
         res.redirect("/");
 
+    });
+
+
+    app.get('/complaintsuggestion', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            connection.loadallupdates(function(data)
+            {
+                res.render("complaintsuggestion.html",{data:data});
+
+            });
+        }
+
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
 
@@ -212,6 +227,21 @@ module.exports = function(app){
         console.log("Title: " + title + "Description: " +description);
 
         connection.addsuggestion(email,title,description,now);
+    });
+
+    app.get('/eallupdates', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            connection.loadallupdates(function(data)
+            {
+                res.render("eallupdates.html",{data:data});
+
+            });
+        }
+
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
 
@@ -421,16 +451,16 @@ module.exports = function(app){
 
     app.get('/awaitingqueue', function(req, res){
 
-        if(req.session.email!=null)
-        {
+      //  if(req.session.email!=null)
+   //     {
             connection.loadallmeetings(function(data) {
                 console.log(data);
                 res.render("awaitingqueue.html",{data:data});
             });
-        }
+   //     }
 
-        else
-            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    //    else
+        //    res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
 
@@ -813,7 +843,7 @@ module.exports = function(app){
 
     app.get('/addmessage', function(req, res){
 
-        if(req.session.email!=null) {
+     //   if(req.session.email!=null) {
             var message = req.param('message');
             var meetid = req.param('meetid');
             cred={
@@ -829,9 +859,9 @@ module.exports = function(app){
                 });
 
             });
-        }
-        else
-            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+      //  }
+   //     else
+     //       res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
 
 
 
@@ -841,15 +871,14 @@ module.exports = function(app){
     app.get('/sendingmessage', function(req, res){
         var meetid = req.query.id;
 
-        if(req.session.email!=null)
+   //     if(req.session.email!=null)
             res.render("sendingmessage.html",{meetid:meetid});
-        else
-            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+  //      else
+        //    res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
-//DEC 11
 
-    app.get('/addupdate', function(req, res){
+    app.get('/eaddupdate', function(req, res){
         if(req.session.email!=null)
         {
 
@@ -871,46 +900,94 @@ module.exports = function(app){
     });
 
 
-    app.get('/allupdates', function(req, res){
-
+    app.get('/aaddupdate', function(req, res){
         if(req.session.email!=null)
         {
-            connection.loadallupdates(function(data)
-                {
-                    res.render("test.html",{data:data});
 
-                });
+            res.redirect("adminindex.html");
+
+            var title = req.param('title');
+            var description = req.param('description');
+            var d = new Date();
+            var now = d.toLocaleString();
+
+            console.log("Title: " + title + "Description: " +description);
+
+            connection.addupdate(title,description,now);
+
         }
 
         else
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
+
 
 
     app.get('/updatesabout', function(req, res){
         var updateid = req.query.id;
-
         if(req.session.email!=null)
-        {
+       {
             connection.loadupdateabout(updateid,function(data){
                     res.render("updatesabout.html",{data:data});
                 }
             );
-        }
-        else
-            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+       }
+       else
+           res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
     });
 
 
-    app.get('/addnewupdate', function(req, res){
+    app.get('/eaddnewupdate', function(req, res){
         if(req.session.email!=null)
         {
-        res.render("addnewupdate.html");
+        res.render("eaddnewupdate.html");
         }
         else
             res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
 
     });
+
+    app.get('/aaddnewupdate', function(req, res){
+        if(req.session.email!=null)
+        {
+            res.render("aaddnewupdate.html");
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+
+    });
+
+
+    app.get('/aallupdates', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            connection.loadallupdates(function(data)
+            {
+                res.render("aallupdates.html",{data:data});
+
+            });
+        }
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
+
+    app.get('/acomplaintsuggestion', function(req, res){
+
+        if(req.session.email!=null)
+        {
+            connection.loadallupdates(function(data)
+            {
+                res.render("acomplaintsuggestion.html",{data:data});
+
+            });
+        }
+
+        else
+            res.end('<div><h1>You are not authorized to view this page!</h1></div></br><a href="/loginopen">Click here to login</a>');
+    });
+
 
 
 
